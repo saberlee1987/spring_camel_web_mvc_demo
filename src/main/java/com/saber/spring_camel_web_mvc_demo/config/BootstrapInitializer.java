@@ -19,7 +19,7 @@ public class BootstrapInitializer implements WebApplicationInitializer {
         servletContext.addListener(new ContextLoaderListener(rootContextConfiguration));
 
         AnnotationConfigWebApplicationContext   webContextConfiguration = new AnnotationConfigWebApplicationContext();
-        rootContextConfiguration.register(AppConfig.class);
+        rootContextConfiguration.register(AppConfig.class,SwaggerConfig.class);
 
         ServletRegistration.Dynamic dispatcherServlet = servletContext.addServlet("springDispatcherServlet",new DispatcherServlet(webContextConfiguration));
         dispatcherServlet.setLoadOnStartup(1);

@@ -8,6 +8,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.spi.annotations.Component;
 import org.apache.camel.spring.SpringCamelContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +18,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -29,8 +38,7 @@ import java.util.List;
         basePackages = "com.saber.spring_camel_web_mvc_demo.site"
         ,includeFilters = @ComponentScan.Filter({Component.class})
 )
-@PropertySource(value = "classpath:application.yml")
-//@EnableSwagger2
+@PropertySource(value = "classpath:application.yml",factory = YamlPropertySourceFactory.class)
 public class AppConfig implements WebMvcConfigurer {
 
     @Bean
@@ -77,31 +85,9 @@ public class AppConfig implements WebMvcConfigurer {
         }
         return springCamelContext;
     }
-
-//    @Bean
-//    public Docket api(){
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-//                .paths(PathSelectors.any())
-//                .build()
-//                .apiInfo(apiInfo());
-//    }
-//
-//    private ApiInfo apiInfo() {
-//        return new ApiInfoBuilder()
-//                .title("TITLE")
-//                .description("DESCRIPTION")
-//                .version("VERSION")
-//                .termsOfServiceUrl("http://terms-of-services.url")
-//                .license("LICENSE")
-//                .licenseUrl("http://url-to-license.com")
-//                .build();
-//    }
-//
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 }

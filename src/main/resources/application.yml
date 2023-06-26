@@ -10,13 +10,4 @@ service:
   swagger:
     title: ${spring.application.name}
     description: ${spring.application.name}
-    version: 'version1.0.0-1401/08/25'
-
-springdoc:
-  swagger-ui:
-    display-request-duration: true
-    display-operation-id: true
-    disable-swagger-default-url: true
-    path: /swagger-ui.html
-  api-docs:
-    path: /services/${spring.application.name}/v3/api-docs
+    version: 'version1.1.0-1402/04/05'
